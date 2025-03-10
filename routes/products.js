@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const auth = require('../auth/auth')
+const slugify = require('slugify');
 
 const renderHome = require('../controllers/site/home')
 
@@ -18,5 +19,15 @@ router.post('/api/products', auth.authenticateKey, createProduct)
 router.put('/api/products/:productID', auth.authenticateKey, updateProduct) 
 // router.delete('/:productID', deleteProduct)
 router.post('/users/register', createUser)
+
+
+router.get('/api/slug-test', (req, res) => {
+  const message = "Welcome to the API";
+  const slugMessage = slugify(message, {
+    replacement: '*', 
+    lower: true
+  });
+  res.send(`Message slugizado: ${slugMessage}`);
+});
 
 module.exports = router
